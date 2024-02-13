@@ -21,10 +21,9 @@ class Sheet(Base):
     title = Column(String, index=True)
     creation_date = Column(DateTime, index=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
-    character_id = Column(Integer, ForeignKey("characters.id"))
 
     owner = relationship("User", back_populates="sheets")
-    character = relationship("Character", back_populates="character")
+    character = relationship("Character", back_populates="sheet")
 
 class Character(Base):
     __tablename__ = "characters"
