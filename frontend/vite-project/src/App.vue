@@ -1,18 +1,104 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import SkillTag from './components/SkillTag.vue'
+import SKILLS from './constants'
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+    <div class="container">
+        <div class="columns">
+            <div class="column is-12">
+              <section class="hero is-warning is-small">
+                  <div class="hero-body">
+                    <div class="media">
+                      <figure class="media-left">
+                          <img 
+                            class="image is-128x128 rounded-pic"
+                            src="https://i.etsystatic.com/41082208/r/il/f203d4/4615117312/il_1588xN.4615117312_pdwu.jpg">
+                      </figure>
+                      <div class="media-content">
+                        <div class="content has-text-left">
+                          <p>
+                            <h2 class="is-size-3 has-text-weight-bold">{{ name }}</h2>
+                          </p>
+                              <h3 class="is-size-5 m-0 has-text-grey	">{{ classes }}</h3>
+                              <h3 class="is-size-5 mt-2 has-text-grey	">Level {{ level }}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="container has-background-white p-4">
+                  <div class="columns">
+                    <div v-for="stat in stats" class="column">
+                      <div class="card has-background-light	">
+                        {{ stat.name }}
+                        <h3 class="is-size-3 has-text-weight-bold">{{ stat.value }}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="container has-background-white p-4">
+                  <div class="columns">
+                    <div class="column is-3">
+                      <div class="card has-background-light">
+                        <div class="columns is-multiline">
+                          <div v-for="stat in shortenedStats" class="column is-half">
+                            {{ stat }}
+                            <div class="rounded-pic">0</div>
+                          </div>
+                        </div>
+                        <h4 class="is-size-5 has-text-weight-bold">Saving throws</h4>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <div class="columns">
+                  <div class="column is-6">
+                      <div class="card events-card">
+                        <div class="skills-wrapper">
+                          <skill-tag 
+                            v-for="skill in skills"
+                            :skill="skill"
+                          >
+                          </skill-tag>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
+
+<script>
+export default {
+  name: 'CharacterSheet',
+
+  data() {
+    return {
+      classes: 'Sorcerer',
+      level: 3,
+      name: 'Nerebril',
+      stats: [
+        { name: 'Strength', value: 10 },
+        { name: 'Dexterity', value: 10 },
+        { name: 'Constitution', value: 10 },
+        { name: 'Intelligence', value: 10 },
+        { name: 'Wisdom', value: 10 },
+        { name: 'Charisma', value: 10 },
+      ],
+      skills: SKILLS
+    };
+  },
+
+  computed: {
+    shortenedStats() {
+      return this.stats.map(stat => stat.name.slice(0, 3).toUpperCase());
+    }
+  }
+}
+</script>
 
 <style scoped>
 .logo {
@@ -26,5 +112,29 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.rounded-pic {
+  border-radius: 64px;
+}
+
+.hero {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.skills-wrapper {
+  border-left: dotted 3px;
+  border-top: dotted 3px;
+}
+
+.skills-wrapper::before {
+  content: 'SKILLS';
+  left: -4px;
+  top: 50px;
+  font-weight: 800;
+  font-size: 14px;
+  position: absolute;
+  rotate: 90°;
+  transform: rotate(-90deg);
 }
 </style>
