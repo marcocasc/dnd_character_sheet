@@ -1,5 +1,5 @@
 <script setup>
-import SkillTag from './components/SkillTag.vue'
+import Tag from './components/Tag.vue'
 import SKILLS from './constants'
 
 </script>
@@ -14,15 +14,15 @@ import SKILLS from './constants'
                       <figure class="media-left">
                           <img 
                             class="image is-128x128 rounded-pic"
-                            src="https://i.etsystatic.com/41082208/r/il/f203d4/4615117312/il_1588xN.4615117312_pdwu.jpg">
+                            src="./assets/nerebril.jpg">
                       </figure>
                       <div class="media-content">
                         <div class="content has-text-left">
                           <p>
                             <h2 class="is-size-3 has-text-weight-bold">{{ name }}</h2>
                           </p>
-                              <h3 class="is-size-5 m-0 has-text-grey	">{{ classes }}</h3>
-                              <h3 class="is-size-5 mt-2 has-text-grey	">Level {{ level }}</h3>
+                          <h3 class="is-size-5 m-0 has-text-grey	">{{ classes }}</h3>
+                          <h3 class="is-size-5 mt-2 has-text-grey	">Level {{ level }}</h3>
                         </div>
                       </div>
                     </div>
@@ -51,17 +51,40 @@ import SKILLS from './constants'
                         <h4 class="is-size-5 has-text-weight-bold">Saving throws</h4>
                       </div>
                     </div>
+                    <div class="column is-3">
+                      <div class="card has-background-light">
+                        <div class="columns">
+                          <tag
+                            :backgroundColor="deathSavesCircles[0].color"
+                            :circles="deathSavesCircles"
+                            :rightName="'successes'"
+                          >
+                          </tag>
+                          <tag
+                            :backgroundColor="deathSavesCircles[0].color"
+                            :circles="deathSavesCircles"
+                            :rightName="'failures'"
+                          >
+                          </tag>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </section>
                 <div class="columns">
                   <div class="column is-6">
                       <div class="card events-card">
                         <div class="skills-wrapper">
-                          <skill-tag 
+                          <tag 
                             v-for="skill in skills"
-                            :skill="skill"
+                            :backgroundColor="skill.color"
+                            :circles="[
+                              { color: skill.color, icon: skill.icon },
+                              { color: skill.color, value: skill.value },
+                            ]"
+                            :rightName="skill.name"
                           >
-                          </skill-tag>
+                          </tag>
                         </div>
                       </div>
                     </div>
@@ -88,7 +111,12 @@ export default {
         { name: 'Wisdom', value: 10 },
         { name: 'Charisma', value: 10 },
       ],
-      skills: SKILLS
+      skills: SKILLS,
+      deathSavesCircles: [
+        { color: '#3E526A' , value: 0 },
+        { color: '#3E526A' , value: 0 },
+        { color: '#3E526A' , value: 0 },
+      ]
     };
   },
 
